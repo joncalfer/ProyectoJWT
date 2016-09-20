@@ -23,6 +23,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<!-- Propiedades -->
+		<spring-boot.version>1.2.3.RELEASE</spring-boot.version>
+		<spring-framework.version>4.1.6.RELEASE</spring-framework.version>
+		<jjwt.version>0.4</jjwt.version>
+		<h2.version>1.4.188</h2.version>
+		<jackson.version>2.5.3</jackson.version>
+		<apache-commons.version>3.0</apache-commons.version>
+		<junit.version>4.12</junit.version>
+        <lombok.version>1.16.6</lombok.version>
+		<jacoco-maven-plugin.version>0.7.5.201505241946</jacoco-maven-plugin.version>
+		<coveralls-maven-plugin.version>4.1.0</coveralls-maven-plugin.version>
+		<!-- Propiedades -->
 	</properties>
 
 	<dependencies>
@@ -69,17 +81,45 @@
 			<scope>test</scope>
 		</dependency>
 		
-    		
-    		<!-- Esta dependencia es para el tools.jar que no lo encuentra el proyecto, dice que está perdido.
-    	<dependency>
-   			<groupId>com.sun</groupId>
-   			<artifactId>tools</artifactId>
-   			<version>1.8.0_101</version>
-   			<scope>system</scope>
-   			<systemPath>C:\Program Files\Java\jdk1.8.0_101\lib\tools.jar</systemPath>
- 		</dependency>
- 
-		 -->
+		<!-- Dependencias -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.mobile</groupId>
+			<artifactId>spring-mobile-device</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${apache-commons.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+		</dependency>
+		
+		<!-- Dependencias -->
+		
+    
 
 	</dependencies>
 
