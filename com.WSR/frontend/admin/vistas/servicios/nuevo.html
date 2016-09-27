@@ -1,0 +1,44 @@
+    <div class="card-panel hoverable">
+        <form class="col s12" ng-controller="ctrlServicios">
+            <div class="center-align titulo">
+                <h5 class="tituloSec">Agregar servicio</h5>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input ng-model="insertarS.nombre" id="first_name" type="text" class="validate">
+                    <label for="first_name">Nombre</label>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input ng-model="insertarS.descripcion" id="first_name" type="text" class="validate">
+                    <label for="first_name">Descripcion</label>
+                </div>
+                
+            </div>
+            <div class="row">
+                
+                <div class="col s12 m6">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Imagen</span>
+                            <input type="file" accept="image/*" ng-file-model="insertarS.imagen">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4">
+                    <img ng-if="insertarS.imagen.data != undefined" ng-src="{{insertarS.imagen.data}}" alt="" class="responsive-img z-depth-1-half max-alto">
+                </div>
+            </div>
+            
+            <div class="row ">
+                <div class="center">
+                    <a class="waves-effect waves-light btn" ng-click="agregarS();" >Agregar Servicio</a>
+                </div>
+            </div>
+        </form>
+    </div>

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class UsuarioController {
 	@Autowired
 	UsuarioRepository usuarioRepo;
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST, value= "/crearUsuario")
 	
 	public Map<String, Object> CrearUsuario(@RequestBody Map<String, Object> usuarioMap) {
 
@@ -41,17 +41,18 @@ public class UsuarioController {
 			usuario.setId(0);
 			usuario.setNombreUsuario(usuarioMap.get("nombreUsuario").toString());
 			
-			//PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		    //String hashedPassword = passwordEncoder.encode(usuarioMap.get("contrasena").toString());
+			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		    String hashedPassword = passwordEncoder.encode(usuarioMap.get("contrasena").toString());
 			
-			usuario.setContrasena(usuarioMap.get("contrasena").toString());
+			usuario.setContrasena(hashedPassword);
 			usuario.setEmail((usuarioMap.get("correo").toString()));
 			usuario.setRoles((usuarioMap.get("roles").toString()));
 			
 			Date currentTime = new Date(12-12-2-12);
 			usuario.setUltimoCambioContrasena(currentTime);
 			usuario.setActivo(true);
-			
+			usuario.setNombre((usuarioMap.get("nombre").toString()));
+			usuario.setApellidos((usuarioMap.get("apellidos").toString()));
 
 			usuarioRepo.save(usuario);
 			response.put("message", "Usuario creado correctamente");
@@ -129,7 +130,7 @@ public class UsuarioController {
 	}
 	
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, value="/listar")
 	public Map<String, Object> listarUsuarios() {
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
 
@@ -141,11 +142,11 @@ public class UsuarioController {
 
 				response.put("message", "Usuarios encontrados: "+  listaUsuarios.size());
 				response.put("status", 200);
-				response.put("Usuarios", listaUsuarios);
+				response.put("usuarios", listaUsuarios);
 			} else {
 				response.put("message", "No hay usuarios registrados");
 				response.put("status", 404);
-				response.put("Usuarios", null);
+				response.put("usuarios", null);
 			}
 		} catch (Exception ex) {
 			response.put("message", ex.getMessage());

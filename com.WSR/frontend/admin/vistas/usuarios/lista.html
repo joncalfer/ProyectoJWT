@@ -1,0 +1,39 @@
+<div ng-controller="ctrlUsuarios">
+	<div class="fixed-action-btn flotar-alto">
+		<a href="#/usuarios/nuevo" class="btn-floating btn-large waves-effect waves-light" tooltipped data-position="right" data-delay="500" data-tooltip="Añadir nuevo"><i class="material-icons">add</i></a>
+	</div>
+	<div class="card-panel" ng-init="cargarUsuarios();">
+		<div ng-if="listo">
+			<div class="center-align">
+                <h5 class="tituloSec">Lista de usuarios</h5>
+            </div>
+			<div class="row">
+				<div class="card-panel cp-medicos col s12 m5 offset-m1 hoverable grey lighten-4 elemento" ng-repeat="usuario in usuarios | filter:$root.busqueda" ng-click="cargarModificar(usuario.id);">
+					
+					<div class="col s7 m7 l7">
+						<span class="title truncate"><b>{{usuario.nombre}} {{usuario.apellidos}}</b></span>
+						<p>Correo: {{usuario.email}}
+							<br>
+							Username: {{usuario.nombreUsuario}}
+						</p>
+					</div>
+					<div class="col s1 m1">
+						<a href=""  href='#modalEliminar' complete="completeCallback" ng-click="modalEliminar(usuario.id); $event.stopPropagation(); " class="alinear alto"><i class="material-icons md-gray md-36">delete</i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-if="!listo" ng-include="'vistas/espera.html'"></div>
+	</div>
+	<!-- Modal Structure -->
+	<div id="modalEliminar" class="modal">
+		<div class="modal-content">
+			<h5 class="center-align" >¿Desea eliminar el usuario?</h5>
+			<p class="contenido-modal">¡Se eliminará de manera definitiva!</p>
+		</div>
+		<div class="modal-footer">
+			<a href="" ng-click="idEliminar = null;" class="modal-action modal-close waves-effect btn-flat">Cancelar</a>
+			<a href="" ng-click="eliminar();" class="modal-action modal-close waves-effect btn-flat">Eliminar</a>
+		</div>
+	</div>
+</div>

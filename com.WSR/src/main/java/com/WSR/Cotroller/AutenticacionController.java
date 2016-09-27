@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WSR.Model.Usuario;
 import com.WSR.Model.UsuarioSeguro;
+import com.WSR.Model.UsuarioWeb;
 import com.WSR.Repository.UsuarioRepository;
 import com.WSR.Seguridad.TokenUtils;
 
@@ -54,20 +56,38 @@ public class AutenticacionController {
   
 	  Map<String, Object> response = new LinkedHashMap<String, Object>();
 	  
-    // Se realiza la autenticacion
-    Authentication authentication = this.authenticationManager.authenticate(
-      new UsernamePasswordAuthenticationToken(usuarioMap.get("nombreUsuario").toString(),
-    		  									usuarioMap.get("contrasena").toString()));
+	  try {
+		// Se realiza la autenticacion
+		    Authentication authentication = this.authenticationManager.authenticate(
+		      new UsernamePasswordAuthenticationToken(usuarioMap.get("nombreUsuario").toString(),
+		    		  									usuarioMap.get("contrasena").toString()));
+		    
+		    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		    // Actualizar la contraseña después de la autenticación para que podamos generar el token
+		    UserDetails userDetails = this.userDetailsService.loadUserByUsername(usuarioMap.get("nombreUsuario").toString());
+		    String token = this.tokenUtils.generarToken(userDetails, dispositivo);
+		    
+		    UsuarioWeb usuario = new UsuarioWeb(((UsuarioSeguro)userDetails).getNombre(), ((UsuarioSeguro)userDetails).getApellidos(), token);
+
+		    response.put("message", "Usuario autenticado correctamente");
+			response.put("status", 200);
+			response.put("usuario", usuario);
+			
+			
+	} catch (BadCredentialsException e) {
+		response.put("message", "Nombre de usuario o contraseña incorrectos");
+		response.put("status", 200);
+		response.put("token", null);
+		response.put("usuario", null);
+	}
+	  catch (Exception ex) {
+		  response.put("message", "Ha ocurrido un error");
+			response.put("status", 404);
+			response.put("token", null);
+			response.put("usuario", null);
+	  }
     
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    // Actualizar la contraseña después de la autenticación para que podamos generar el token
-    UserDetails userDetails = this.userDetailsService.loadUserByUsername(usuarioMap.get("nombreUsuario").toString());
-    String token = this.tokenUtils.generarToken(userDetails, dispositivo);
-
-    response.put("message", "Usuario autenticado correctamente");
-	response.put("status", 200);
-	response.put("token", token);
 	
 	return response;
   }
@@ -104,7 +124,9 @@ public class AutenticacionController {
         String contrasenaHash = encriptadorContrasena.encode(usuarioMap.get("contrasena").toString());
         
         Usuario usuario = new Usuario(0, usuarioMap.get("nombreUsuario").toString(), contrasenaHash, 
-        		usuarioMap.get("correo").toString(), fechaActual, usuarioMap.get("roles").toString(), true);
+        		usuarioMap.get("correo").toString(), fechaActual, usuarioMap.get("roles").toString(), true, 
+        		usuarioMap.get("nombre").toString(), usuarioMap.get("apellidos").toString());
+        
         
         try {
         usuarioRepo.save(usuario);

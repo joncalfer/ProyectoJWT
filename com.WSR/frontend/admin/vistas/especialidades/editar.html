@@ -1,0 +1,46 @@
+<div ng-controller="ctrlEspecialidades">
+    <div class="card-panel hoverable">
+        <form>
+            <div class="center-align titulo">
+                <h5 class="tituloSec">Modificar especialidad</h5>
+            </div>
+            <div class="row">
+                <div  class="input-field col s12 m6">
+                    <input ng-model="actualizarE.nombre" id="first_name" type="text" class="validate">
+                    <label for="first_name">Nombre</label>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div  class="input-field col s12 m6">
+                    <input ng-model="actualizarE.descripcion" id="first_name" type="text" class="validate">
+                    <label for="first_name">Descripcion</label>
+                </div>
+                
+            </div>
+            <div class="row no-bottom">
+                
+                <div class="col s12 m4">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Imagen</span>
+                            <input type="file" accept="image/*" ng-file-model="actualizarE.imagen">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m2">
+                    <img ng-src="{{actualizarE.imagen.data == null ? wss+'/'+actualizarE.urlImagen : actualizarE.imagen.data}}" alt="" class="responsive-img z-depth-1-half max-alto">
+                </div>
+            </div>
+            <br/>
+             <div class="row no-bottom">
+                <div class="center">
+                    <a class="waves-effect waves-light btn" ng-click="modificarE();" >Guardar cambios</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

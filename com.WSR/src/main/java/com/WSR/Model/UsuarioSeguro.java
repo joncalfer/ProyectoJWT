@@ -19,18 +19,22 @@ public class UsuarioSeguro implements UserDetails {
   private Boolean accountNonLocked = true;
   private Boolean credentialsNonExpired = true;
   private Boolean activo = true;
+  private String nombre;
+  private String apellidos;
 
   public UsuarioSeguro() {
     super();
   }
 
-  public UsuarioSeguro(int id, String nombreUsuario, String contrasena, String email, Date ultimoCambioContrasena, Collection<? extends GrantedAuthority> roles) {
+  public UsuarioSeguro(int id, String nombreUsuario, String contrasena, String email, Date ultimoCambioContrasena, Collection<? extends GrantedAuthority> roles, String nombre, String apellidos) {
     this.setId(id);
     this.setNombreUsuario(nombreUsuario);
     this.setContrasena(contrasena);
     this.setEmail(email);
     this.setUltimoCambioContrasena(ultimoCambioContrasena);
     this.setAuthorities(roles);
+    this.nombre = nombre;
+    this.apellidos = apellidos;
   }
 
   public int getId() {
@@ -147,5 +151,27 @@ public String getUsername() {
 	
 	return this.nombreUsuario;
 }
+
+public String getApellidos() {
+	return apellidos;
+}
+
+public void setApellidos(String apellidos) {
+	this.apellidos = apellidos;
+}
+
+public String getNombreUsuario() {
+	return nombreUsuario;
+}
+
+public String getNombre() {
+	return nombre;
+}
+
+public void setNombre(String nombre) {
+	this.nombre = nombre;
+}
+
+
 
 }

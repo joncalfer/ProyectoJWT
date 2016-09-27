@@ -1,0 +1,41 @@
+<div class="slider" slider>
+    <ul class="slides">
+        <li>
+            <img class="opaco" src="img/slide1.jpg">
+            <!-- random image -->
+            <div class="caption center-align">
+                <h3>Atención personalizada</h3>
+                <h5>Contamos con la mejor atención para usted y su familia.</h5>
+            </div>
+        </li>
+        <li>
+            <img class="opaco" src="img/slide2.jpg"> <!-- random image -->
+            <div class="caption left-align">
+                <h3>Profesionales capacitados</h3>
+                <h5>Cosideramos que la experiencia de nuestros profesionales es prioridad.</h5>
+            </div>
+        </li>
+        <li>
+            <img class="opaco" src="img/slide3.jpg"> <!-- random image -->
+            <div class="caption right-align margin-left">
+                <h3>Variedad de servicios</h3>
+                <h5>Ofrecemos una amplia gama de servicios.</h5>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="container" ng-controller="inicioCtrl">
+    <div class="center-align">
+        <h5 class="tituloSec">Nuestros servicios</h5>
+    </div>
+    <div class="row" ng-init="listarMedicos();">
+        <div ng-repeat="servicio in servicios" class="col s12 m3 l3">
+            <div class="hoverable card-panel cyan lighten-2">
+                <div class="white-text">
+                    <h5 class="center-align"  >{{servicio.nombre}}</h5>
+                    <p class="tam">{{servicio.descripcion}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

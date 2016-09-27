@@ -30,7 +30,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     		  usuario.getNombreUsuario(),
     		  usuario.getContrasena(), 
     		  usuario.getEmail(), 
-    		  usuario.getUltimoCambioContrasena(), AuthorityUtils.commaSeparatedStringToAuthorityList(usuario.getRoles()));
+    		  usuario.getUltimoCambioContrasena(), AuthorityUtils.commaSeparatedStringToAuthorityList(usuario.getRoles()),
+    		  usuario.getNombre(),
+    		  usuario.getApellidos());
 
     }
   }

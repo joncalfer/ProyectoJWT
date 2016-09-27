@@ -1,0 +1,33 @@
+<div class="container" ng-controller="UsersCtrl">
+	<h2 ng-init="loadUser(routeParams.cedula)" class="sectionTitle">Detalles del Usuario</h2>
+	
+	<!-- Menu Navegacion-->
+	<p>
+		<a  href="#/">
+			<i class="material-icons">arrow_back</i> Volver al Panel Principal
+		</a>
+	</p>
+	
+	<div ng-if="loading">
+		<div class="wrapper">
+			<div class="cssload-loader"></div>
+		</div>
+		<span>Cargando Detalles...</span>
+	</div>
+
+	<div ng-show="user.nombre">
+		<label>No. Cédula:</label> {{user.cedula}}
+		<br>
+		<label>Nombre:</label> {{user.nombre}}
+		<br>
+		<label>Primer Apellido:</label> {{user.primerApellido}}
+		<br>
+		<label>Segundo Apellido:</label> {{user.segundoApellido}}
+	</div>
+
+	<br>
+	<div ng-if="!user.nombre&&!loading" class="alert alert-danger stretch" role="alert">
+		NO SE ENCONTRÓ EL USUARIO CON CÉDULA {{routeParams.cedula}}
+	</div>
+	
+</div>
