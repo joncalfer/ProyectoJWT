@@ -16,10 +16,10 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 	$scope.cargarModificar = function(id) {
 		$scope.listo = false;
 		console.log(id);
-		servConexion.get('/usuarios/' + id)
+		servConexion.get('/Usuarios/obtener/' + id)
 			.then(function(datos) {
 				$location.path('/usuarios/editar');
-				$rootScope.actualizarU = datos;
+				$rootScope.actualizarU = datos.usuario;
 				$scope.listo = true;
 			})
 			.catch(function(status) {
@@ -41,7 +41,7 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 				
 			};
 			
-			servConexion.post('/Usuarios', datos)
+			servConexion.post('/Usuarios/crearUsuario', datos)
 				.then(function(datos) {
 					if (!datos.usuario) {
 						$rootScope.mensaje(datos.msg);
@@ -62,45 +62,35 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 		}
 	}
 
-	/*Modificar*/
-
-	
 
 	
 	$scope.modificar = function() {
-		if ($rootScope.actualizarU.telefono && $rootScope.actualizarU.nombre && $rootScope.actualizarU.apellidos && $rootScope.actualizarU.cedula && $rootScope.actualizarU.correo && (($rootScope.actualizarU.servicios.length > 0 && $rootScope.actualizarU.especialidades.length > 0) || $rootScope.actualizarU.tipo == 0)) {
+		if ($rootScope.actualizarU.nombreUsuario && $rootScope.actualizarU.nombre && $rootScope.actualizarU.apellidos && $rootScope.actualizarU.email && $rootScope.actualizarU.activo) {
 			datos = {
 				id: $rootScope.actualizarU.id,
 				nombre: $rootScope.actualizarU.nombre,
 				apellidos: $rootScope.actualizarU.apellidos,
-				cedula: $rootScope.actualizarU.cedula,
-				correo: $rootScope.actualizarU.correo,
-				sexo: $rootScope.actualizarU.sexo,
-				telefono: $rootScope.actualizarU.telefono,
-				tipo: $rootScope.actualizarU.tipo
+				nombreUsuario: $rootScope.actualizarU.nombreUsuario,
+				email: $rootScope.actualizarU.email,
+				activo: $rootScope.actualizarU.activo,
+				roles: "rol"
 			};
-			console.log($rootScope.actualizarU.tipo);
-			if ($rootScope.actualizarU.tipo == 1) {
-				datos.especialidades = $scope.actualizarU.especialidades;
-				datos.servicios = $scope.actualizarU.servicios;
-			}
+			
 			if ($rootScope.actualizarU.contrasena) {
 				datos.contrasena = $rootScope.actualizarU.contrasena;
 			}
-			if ($rootScope.actualizarU.imagen) {
-				datos.imagen = $rootScope.actualizarU.imagen.data;
-			}
+			
 			console.log(datos);
-			servConexion.put('/usuarios', datos)
+			servConexion.put('/Usuarios/actualizar/' + datos.id, datos)
 				.then(function(datos) {
-					if (datos.msg == true) {
-						$rootScope.mensaje('Cambios guardados');
+					if (datos.status == 200) {
+						$rootScope.mensaje(datos.message);
 						$timeout(function() {
 							$location.path('/usuarios');
 						}, 400);
 					} else {
 						console.log(datos);
-						$rootScope.mensaje(datos.msg);
+						$rootScope.mensaje(datos.message);
 					}
 				})
 				.catch(function(status) {
@@ -121,17 +111,15 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 
 	$scope.eliminar = function() {
 		if ($scope.idEliminar) {
-			console.log($scope.idEliminar);
-			servConexion.delete('/usuarios', {
-					params: {
-						id: $scope.idEliminar
-					}
+			
+			servConexion.delete('/Usuarios/' + $scope.idEliminar, {
+					
 				})
 				.then(function(datos) {
-					if (datos.msg != true) {
-						$rootScope.mensaje(datos.msg);
+					if (datos.status == 200) {
+						$rootScope.mensaje(datos.message);
 					} else {
-						$rootScope.mensaje('Eliminado correctamente');
+						$rootScope.mensaje(datos.message);
 					}
 					$route.reload();
 				})

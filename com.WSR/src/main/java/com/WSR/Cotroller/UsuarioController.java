@@ -66,8 +66,8 @@ public class UsuarioController {
 
 		return response;
 	}
-
-	@RequestMapping(method = RequestMethod.GET, value="/{idUsuario}")
+	
+	@RequestMapping(method = RequestMethod.GET, value="/obtener/{idUsuario}")
 	public Map<String, Object> Obtener(@PathVariable("idUsuario") Integer idUsuario) {
 
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
@@ -157,7 +157,7 @@ public class UsuarioController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value="/{idUsuario}")
+	@RequestMapping(method = RequestMethod.PUT, value="/actualizar/{idUsuario}")
 	public Map<String, Object> EditarUsuario(@RequestBody Map<String, Object> usuarioMap, @PathVariable("idUsuario") Integer idUsuario) {
 		
 		 Map<String, Object> response = new HashMap<String, Object>();
@@ -169,19 +169,33 @@ public class UsuarioController {
         	
         	if(usuario != null) {
         		
-        		
-    			usuario.setNombreUsuario(usuarioMap.get("nombreUsuario").toString());
+        		if(usuarioMap.containsKey("nombreUsuario")) {
+        			usuario.setNombreUsuario(usuarioMap.get("nombreUsuario").toString());
+        		}
+    			if(usuarioMap.containsKey("contrasena")) {
+    				PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        		    String hashedPassword = passwordEncoder.encode(usuarioMap.get("contrasena").toString());
+        			usuario.setContrasena(hashedPassword);
+        			Date currentTime = new Date(12-12-2-12);
+        			usuario.setUltimoCambioContrasena(currentTime);
+    			}
+    			if(usuarioMap.containsKey("email")) {
+    				usuario.setEmail((usuarioMap.get("email").toString()));
+    			}
+    			if(usuarioMap.containsKey("roles")) {
+    				usuario.setRoles((usuarioMap.get("roles").toString()));
+    			}
+    			if(usuarioMap.containsKey("nombre")) {
+    				usuario.setNombre((usuarioMap.get("nombre").toString()));
+    			}
+    			if(usuarioMap.containsKey("apellidos")) {
+    				usuario.setApellidos((usuarioMap.get("apellidos").toString()));
+    			}
+    			if(usuarioMap.containsKey("activo")) {
+    				Boolean activo = Boolean.parseBoolean(usuarioMap.get("activo").toString());
+    				usuario.setActivo(activo);
+    			}
     			
-    			//PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    		    //String hashedPassword = passwordEncoder.encode(usuarioMap.get("contrasena").toString());
-    			
-    			usuario.setContrasena(usuarioMap.get("contrasena").toString());
-    			usuario.setEmail((usuarioMap.get("correo").toString()));
-    			usuario.setRoles((usuarioMap.get("roles").toString()));
-    			
-    			Date currentTime = new Date(12-12-2-12);
-    			usuario.setUltimoCambioContrasena(currentTime);
-    			usuario.setActivo(true);
         		
         		response.put("message", "Usuario actualizado");
         		response.put("status",200);
@@ -201,9 +215,6 @@ public class UsuarioController {
          }
 
        return response;
-         
-         
-         
          
 	}
 

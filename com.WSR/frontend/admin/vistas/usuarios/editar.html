@@ -13,82 +13,40 @@
                     <input ng-model="actualizarU.apellidos" id="apellidos" type="text" class="validate">
                     <label for="apellidos">Apellidos</label>
                 </div>                
-                <div input-field class="col s12 m4">
-                    <input placeholder="123456789" id="cedula"  ng-model="actualizarU.cedula" type="number" min="100000000"  max="1000000000000" class="validate">
-                    <label for="cedula" class="lbl-tam" data-error="Cantidad de dígitos errónea">Cédula</label>
-                </div>
+                
             </div>
             <div class="row">
-                <div input-field class="col s12 m4">
-                    <input placeholder="usuario@correo.com" ng-model="actualizarU.correo" type="email" id="correo" type="text" class="validate">
-                    <label for="correo"  data-error="Formato incorrecto" >Correo</label>
+            
+            <div input-field class="col s12 m4">
+                    <input  id="nombreUsuario"  ng-model="actualizarU.nombreUsuario" type="text" class="validate">
+                    <label for="nombreUsuario">Nombre Usuario</label>
                 </div>
+                
+                
                 <div input-field class="col s12 m4">
-                    <input ng-model="actualizarU.contrasena" id="contrasena" type="text" class="validate">
+                    <input ng-model="actualizarU.contrasena" id="contrasena" type="password" class="validate">
                     <label for="contrasena">Nueva contraseña</label>
                 </div>
-                <div input-field class="col s12 m4">
-                    <input placeholder="12345678" ng-model="actualizarU.telefono" id="telefono" type="number" min="10000000" max="99999999" class="validate">
-                    <label for="telefono" data-error="Cantidad de digitos errónea" >Teléfono</label>
-                </div>
+                
+                
             </div>
             <div class="row no-bottom">
+            	<div input-field class="col s12 m4">
+                    <input placeholder="usuario@correo.com" ng-model="actualizarU.email" type="email" id="correo" type="text" class="validate">
+                    <label for="correo"  data-error="Formato incorrecto" >Correo</label>
+            	</div>
+                
                 <div class="input-field col s12 m3">
-                    <select class="" id="selSexo" ng-model="actualizarU.sexo" material-select>
-                        <option value="M">M</option>
-                        <option value="F">F</option>
+                    <select class="" id="selActivo" ng-model="actualizarU.activo" material-select>
+                        <option value="true" >Activo</option>
+                        <option value="false">Inactivo</option>
                     </select>
-                    <label for="selSexo">Sexo:</label>
+                    <label for="selActivo">Estado:</label>
                 </div>
-                <div class="col s12 m4">
-                    <div class="file-field input-field">
-                        <div class="btn">
-                            <span>Imagen</span>
-                            <input type="file" accept="image/*" ng-file-model="actualizarU.imagen">
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m2">
-                    <img ng-src="{{actualizarU.imagen.data == null ? wss+'/'+actualizarU.urlImagen : actualizarU.imagen.data}}" alt="" class="responsive-img z-depth-1-half max-alto">
-                </div>
+                
+                
             </div>
-            <div>
-                <div class="row no-bottom">
-                    <div class="input-field col s12 m4" ng-init="cargarEspecialidades();">
-                        <select id="especialidad" ng-model="sel.especialidad" data-ng-options="especialidad as especialidad.nombre for especialidad in especialidades" material-select>
-                        </select>
-                        <label for="especialidad">Especialidad:</label>
-                    </div>
-                    <div class="col s12 m2">
-                        <a href="" class="btn btn-chips" ng-click="agregarEspecialidadMod(sel.especialidad);"><i class="material-icons">add</i></a>
-                    </div>
-                    <div class="col s12 m4 chips">
-                        <div ng-repeat="especialidad in actualizarU.especialidades" watch class="chip">
-                            {{especialidad.nombre}}
-                            <i ng-click="eliminarEspecialidadMod(especialidad);" class="material-icons">close</i>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12 m4" ng-init="cargarServicios();">
-                        <select id="especialidad" ng-model="sel.servicio" data-ng-options="servicio as servicio.nombre for servicio in servicios" material-select>
-                        </select>
-                        <label for="especialidad">Servicio:</label>
-                    </div>
-                    <div class="col s12 m2">
-                        <a href="" class="btn btn-chips" ng-click="agregarServicioMod(sel.servicio);"><i class="material-icons">add</i></a>
-                    </div>
-                    <div class="col s12 m4 chips">
-                        <div ng-repeat="servicio in actualizarU.servicios" watch class="chip">
-                            {{servicio.nombre}}
-                            <i ng-click="eliminarServicioMod(servicio);" class="material-icons">close</i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="row no-bottom">
                 <div class="center">
                     <a class="waves-effect waves-light btn" ng-click="modificar();" >Guardar cambios</a>

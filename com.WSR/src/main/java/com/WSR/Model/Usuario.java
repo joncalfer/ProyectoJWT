@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -13,6 +15,7 @@ public class Usuario {
 	@Id
 	private Integer id;
 	private String nombreUsuario;
+	@JsonIgnore
 	private String contrasena;
 	private String email;
 	private String roles;
@@ -59,7 +62,7 @@ public class Usuario {
 		this.nombreUsuario = nombreUsuario;
 	}
 
-
+	@JsonIgnore
 	public String getContrasena() {
 		return contrasena;
 	}

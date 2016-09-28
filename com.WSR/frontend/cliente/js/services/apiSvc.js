@@ -17,7 +17,8 @@ concepcion.factory('apiService', function($q, $http, $httpParamSerializer, $root
 
         postToApi: function(url, datos) {
             var deferred = $q.defer();
-            $http.post($rootScope.wss + url, $httpParamSerializer(datos))
+            datos.dataType = 'json';
+            $http.post($rootScope.wss + url, datos)
                 .success(function(data) {
                     deferred.resolve(data);
                 })

@@ -1,4 +1,4 @@
-concepcion.controller('ctrlUsuarios', function(apiService, $scope, $rootScope, $filter) {
+concepcion.controller('ctrlUsuarios', function(apiService, $scope, $rootScope, $filter, $timeout, $location) {
 	$scope.insertarU = {};
 	
 
@@ -15,15 +15,15 @@ concepcion.controller('ctrlUsuarios', function(apiService, $scope, $rootScope, $
 
 	
 
-	$scope.agregar = function() {
+	$scope.registrar = function() {
 
-		console.log($scope.insertarU);
-		if ($scope.insertarU.nombre && $scope.insertarU.apellidos && $scope.insertarU.correo && $scope.insertarU.contrasena) {
+		
+		if ($scope.insertarU.nombre && $scope.insertarU.apellidos && $scope.insertarU.email && $scope.insertarU.contrasena) {
 			datos = {
 				nombre: $scope.insertarU.nombre,
 				apellidos: $scope.insertarU.apellidos,
 				nombreUsuario: $scope.insertarU.nombreUsuario,
-				correo: $scope.insertarU.correo,
+				email: $scope.insertarU.email,
 				contrasena: $scope.insertarU.contrasena,
 				roles: "rol",
 				
@@ -31,22 +31,23 @@ concepcion.controller('ctrlUsuarios', function(apiService, $scope, $rootScope, $
 			
 			apiService.postToApi('/registrar', datos)
 				.then(function(datos) {
-					if (!datos.usuario) {
-						$rootScope.mensaje(datos.msg);
+					if (datos.status == 200) {
+						 Materialize.toast(datos.message, 800);
 					} else {
-						console.log(datos);
-						$rootScope.mensaje('Agregado correctamente');
+						
+						Materialize.toast(datos.message, 800);
 					}
 					$timeout(function() {
 						$location.path('/');
 					}, 800);
 				})
 				.catch(function(status) {
-					$rootScope.mensaje('¡Ocurrió un problema!, por favor intente de nuevo');
-					$rootScope.iniciando = false;
+					Materialize.toast('¡Ocurrió un problema!, por favor intente de nuevo', 2500);
+					
+					
 				});
 		} else {
-			$rootScope.mensaje('Faltan datos, complete los datos requeridos');
+			Materialize.toast('Faltan datos, complete los datos requeridos');
 		}
 	}
 

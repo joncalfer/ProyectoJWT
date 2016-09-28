@@ -124,7 +124,7 @@ public class AutenticacionController {
         String contrasenaHash = encriptadorContrasena.encode(usuarioMap.get("contrasena").toString());
         
         Usuario usuario = new Usuario(0, usuarioMap.get("nombreUsuario").toString(), contrasenaHash, 
-        		usuarioMap.get("correo").toString(), fechaActual, usuarioMap.get("roles").toString(), true, 
+        		usuarioMap.get("email").toString(), fechaActual, usuarioMap.get("roles").toString(), true, 
         		usuarioMap.get("nombre").toString(), usuarioMap.get("apellidos").toString());
         
         

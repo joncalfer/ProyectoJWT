@@ -4,7 +4,8 @@ var concepcion = angular.module("concepcion", ['ngRoute', 'ui.materialize', 'ui.
 concepcion.config(['$httpProvider', function($httpProvider) {
     // MAKE ALL REQUEST POST TYPE FORM URL
     $httpProvider.defaults.headers
-    .post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+    .post['Content-Type'] = 'application/json; charset=UTF-8';
+    
 }]);
 
 concepcion.config(function($routeProvider) {
@@ -21,3 +22,7 @@ concepcion.config(function($routeProvider) {
         templateUrl: 'views/404.html'
     });
 });
+
+
+       
+   

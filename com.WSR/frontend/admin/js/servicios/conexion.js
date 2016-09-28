@@ -21,6 +21,7 @@ concepcion.factory('servConexion', function ($q, $http, $rootScope) {
             var deferred = $q.defer();
             $http.post($rootScope.wss + url, datos)
             .success(function(data) {
+            	
                 deferred.resolve(data);
             })
             .error(function(error, status) {
