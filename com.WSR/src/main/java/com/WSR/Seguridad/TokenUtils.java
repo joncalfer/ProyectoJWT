@@ -10,8 +10,11 @@ import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.WSR.Model.TokenInvalido;
 import com.WSR.Model.UsuarioSeguro;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +28,56 @@ public class TokenUtils {
   private final String AUDIENCE_WEB       = "web";
   private final String AUDIENCE_MOBILE    = "mobile";
   private final String AUDIENCE_TABLET    = "tablet";
+  
+  ArrayList<TokenInvalido> listaId;
+  int contadorIdToken;
+  long ultimoLimpidoBlacklist;
+  
+  public TokenUtils() {
+	  ultimoLimpidoBlacklist = System.currentTimeMillis();
+	  listaId = new ArrayList<>();
+  }
+  
+  public int obtenerSiguiente() {
+		return this.contadorIdToken++;
+	}
+  
+  public void insertarTokenInvalido(String token) {
+	  TokenInvalido invalido = new TokenInvalido();
+	  invalido.setExpiracion(getFechaExpiracionDelToken(token));
+	  invalido.setId(getIdDelToken(token));
+	  this.listaId.add(invalido);
+	  if(listaId.size() > 1) {
+		  limpiarListaNegra();
+	  }
+	 
+	}
+  
+  private boolean ContieneTokenInvalido(String token) {
+	  int idToken = getIdDelToken(token);
+	  for(int i=0; i < listaId.size(); i++) {
+		  if(listaId.get(i).getId() == idToken) {
+			  return true;
+			  
+		  }
+		  
+  }
+	  return false;
+  }
+  
+  
+  private void limpiarListaNegra() {
+	  for(int i=0; i < listaId.size(); i++) {
+		  if(listaId.get(i).getExpiracion().before(this.generarFechaActual())) {
+			  listaId.remove(i);
+		  }
+	  }
+	 
+	  long comparacion = (System.currentTimeMillis() - this.ultimoLimpidoBlacklist) / 60000;
+	  if( comparacion >  this.expiracionDelToken) {
+		  this.contadorIdToken = 0;
+	  }
+  }
 
   @Value("${javatab.token.secret}")
   private String claveSecreta;
@@ -75,6 +128,17 @@ public class TokenUtils {
     }
     return audiencia;
   }
+  
+  public int getIdDelToken(String token) {
+	    int id;
+	    try {
+	      final Claims claims = this.getClaimsDelToken(token);
+	      id = (int) claims.get("id");
+	    } catch (Exception e) {
+	    	id = -1;
+	    }
+	    return id;
+	  }
 
   private Claims getClaimsDelToken(String token) {
     Claims claims;
@@ -94,7 +158,7 @@ public class TokenUtils {
   }
 
   private Date generarFechaExpiracion() {
-    return new Date(System.currentTimeMillis() + this.expiracionDelToken * 1000);
+    return new Date(System.currentTimeMillis() + this.expiracionDelToken * 60000);
   }
 
   private Boolean tokenCaducado(String token) {
@@ -125,6 +189,7 @@ public class TokenUtils {
 
   public String generarToken(UserDetails userDetails, Device dispositivo) {
     Map<String, Object> claims = new HashMap<String, Object>();
+    claims.put("id", obtenerSiguiente());
     claims.put("sub", userDetails.getUsername());
     claims.put("audiencia", this.generarAudiencia(dispositivo));
     claims.put("creado", this.generarFechaActual());
@@ -161,7 +226,7 @@ public class TokenUtils {
 	    final String nombreUsuario = this.getNombreUsuarioDelToken(token);
 	    final Date creado = this.getFechaCreacionDelToken(token);
 	    final Date expiration = this.getFechaExpiracionDelToken(token);
-	    return (nombreUsuario.equals(usuario.getUsername()) && !(this.tokenCaducado(token)) && !(this.creadoAntesDelUltimoCambioContrasena(creado, usuario.getUltimoCambioContrasena())));
+	    return (!ContieneTokenInvalido(token) && nombreUsuario.equals(usuario.getUsername()) && !(this.tokenCaducado(token)) && !(this.creadoAntesDelUltimoCambioContrasena(creado, usuario.getUltimoCambioContrasena())));
 	  }
 
 }

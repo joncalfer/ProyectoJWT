@@ -8,7 +8,10 @@ concepcion.factory('servConexion', function ($q, $http, $rootScope) {
             var deferred = $q.defer();
             $http.get($rootScope.wss + url)
             .success(function(data) {
+            	
                 deferred.resolve(data);
+                
+                
             })
             .error(function(error, status) {
                 deferred.reject(status);
@@ -21,8 +24,10 @@ concepcion.factory('servConexion', function ($q, $http, $rootScope) {
             var deferred = $q.defer();
             $http.post($rootScope.wss + url, datos)
             .success(function(data) {
-            	
+            	 
                 deferred.resolve(data);
+              
+               
             })
             .error(function(error, status) {
                 console.warn("Error " + status);
@@ -35,7 +40,9 @@ concepcion.factory('servConexion', function ($q, $http, $rootScope) {
             var deferred = $q.defer();
             $http.put($rootScope.wss + url, datos)
             .success(function(data) {
+            	
                 deferred.resolve(data);
+                
             })
             .error(function(error, status) {
                 console.warn("Error " + status);
@@ -49,6 +56,7 @@ concepcion.factory('servConexion', function ($q, $http, $rootScope) {
             var deferred = $q.defer();
             $http.delete($rootScope.wss + url, datos)
             .success(function(data) {
+            	
                 deferred.resolve(data);
             })
             .error(function(error, status) {

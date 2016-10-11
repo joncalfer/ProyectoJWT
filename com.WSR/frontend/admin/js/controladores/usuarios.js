@@ -5,11 +5,13 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 	$scope.cargarUsuarios = function() {
 		servConexion.get('/Usuarios/listar')
 			.then(function(datos) {
+				
 				$scope.usuarios = datos.usuarios;
 				$scope.listo = true;
 			})
 			.catch(function(status) {
 				console.error(status);
+				$location.path('/ingreso')
 			});
 	}
 
@@ -24,6 +26,7 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 			})
 			.catch(function(status) {
 				console.error(status);
+				$location.path('/ingreso')
 			});
 	}
 
@@ -56,6 +59,7 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 				.catch(function(status) {
 					$rootScope.mensaje('¡Ocurrió un problema!, por favor intente de nuevo');
 					$rootScope.iniciando = false;
+					$location.path('/ingreso')
 				});
 		} else {
 			$rootScope.mensaje('Faltan datos, complete los datos requeridos');
@@ -96,6 +100,7 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 				.catch(function(status) {
 					$rootScope.mensaje('¡Ocurrió un problema!, por favor intente de nuevo');
 					$rootScope.iniciando = false;
+					$location.path('/ingreso')
 				});
 		} else {
 			$rootScope.mensaje('Faltan datos, complete los datos requeridos');
@@ -125,6 +130,7 @@ concepcion.controller('ctrlUsuarios', function($scope, servConexion, $rootScope,
 				})
 				.catch(function(status) {
 					$rootScope.mensaje('¡Ocurrió un problema!, por favor intente de nuevo');
+					$location.path('/ingreso')
 				});
 		} else {
 			$rootScope.mensaje('¡No fue posible elimnar el usuario!');

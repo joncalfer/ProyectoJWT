@@ -26,6 +26,7 @@ import com.WSR.Model.UsuarioWeb;
 import com.WSR.Repository.UsuarioRepository;
 import com.WSR.Seguridad.TokenUtils;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -41,6 +42,8 @@ public class AutenticacionController {
 
   @Autowired
   private AuthenticationManager authenticationManager;
+  
+ 
 
   @Autowired
   private TokenUtils tokenUtils;
@@ -73,6 +76,8 @@ public class AutenticacionController {
 		    response.put("message", "Usuario autenticado correctamente");
 			response.put("status", 200);
 			response.put("usuario", usuario);
+			
+			
 			
 			
 	} catch (BadCredentialsException e) {
@@ -137,6 +142,27 @@ public class AutenticacionController {
 		response.put("message", ex.getMessage());
 		response.put("status", 500);
 		response.put("estudiante", null);
+	}
+
+	return response;
+    }
+    
+    @RequestMapping(value = "/cerrarSesion", method = RequestMethod.GET)
+    public Map<String, Object> cerrarSesion(/*@RequestBody Map<String, Object> usuarioMap,*/ ServletRequest request) throws AuthenticationException {
+    
+    	Map<String, Object> response = new LinkedHashMap<String, Object>();
+    	
+    	try {
+    		HttpServletRequest httpRequest = (HttpServletRequest) request;
+            String token = httpRequest.getHeader(this.tokenHeader);
+        	this.tokenUtils.insertarTokenInvalido(token);
+        	response.put("message", "Sesion cerrada");
+    		response.put("status", 200);
+    		
+	} catch (Exception ex) {
+		response.put("message", ex.getMessage());
+		response.put("status", 500);
+		
 	}
 
 	return response;
