@@ -10,11 +10,10 @@ import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.WSR.Model.ListaEnlazadaSimple;
 import com.WSR.Model.TokenInvalido;
 import com.WSR.Model.UsuarioSeguro;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,20 +28,19 @@ public class TokenUtils {
   private final String AUDIENCE_MOBILE    = "mobile";
   private final String AUDIENCE_TABLET    = "tablet";
   
-  ArrayList<TokenInvalido> listaId;
+  ListaEnlazadaSimple<TokenInvalido> listaId;
   int contadorIdToken;
   long ultimoLimpidoBlacklist;
   
   public TokenUtils() {
 	  ultimoLimpidoBlacklist = System.currentTimeMillis();
-	  listaId = new ArrayList<>();
+	  listaId = new ListaEnlazadaSimple<>(); 
   }
-  
   public int obtenerSiguiente() {
 		return this.contadorIdToken++;
 	}
   
-  public void insertarTokenInvalido(String token) {
+  public void insertarTokenInvalido(String token) throws Exception {
 	  TokenInvalido invalido = new TokenInvalido();
 	  invalido.setExpiracion(getFechaExpiracionDelToken(token));
 	  invalido.setId(getIdDelToken(token));
@@ -56,17 +54,21 @@ public class TokenUtils {
   private boolean ContieneTokenInvalido(String token) {
 	  int idToken = getIdDelToken(token);
 	  for(int i=0; i < listaId.size(); i++) {
-		  if(listaId.get(i).getId() == idToken) {
-			  return true;
-			  
-		  }
+		  try {
+			if(listaId.get(i).getId() == idToken) {
+				  return true;
+				  
+			  }
+		} catch (Exception e) {
+			return false;
+		}
 		  
   }
 	  return false;
   }
   
   
-  private void limpiarListaNegra() {
+  private void limpiarListaNegra() throws Exception {
 	  for(int i=0; i < listaId.size(); i++) {
 		  if(listaId.get(i).getExpiracion().before(this.generarFechaActual())) {
 			  listaId.remove(i);
@@ -74,7 +76,7 @@ public class TokenUtils {
 	  }
 	 
 	  long comparacion = (System.currentTimeMillis() - this.ultimoLimpidoBlacklist) / 60000;
-	  if( comparacion >  this.expiracionDelToken) {
+	  if( comparacion >  this.expiracionDelToken*2) {
 		  this.contadorIdToken = 0;
 	  }
   }

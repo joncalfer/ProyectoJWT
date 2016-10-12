@@ -9,7 +9,7 @@ concepcion.factory('httpRequestInterceptor', ['$sessionStorage','$location', '$r
   return {
     request: function (config) {
       if ($sessionStorage.usuario) {
-        config.headers['X-Auth-Token'] = $sessionStorage.usuario.token;
+        config.headers['AuthToken'] = $sessionStorage.usuario.token;
         config.headers['Accept'] = 'application/json;odata=verbose';
       } else {
         $rootScope.autenticado = false;

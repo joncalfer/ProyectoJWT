@@ -13,7 +13,7 @@ concepcion.factory('servSesion', function($q, $rootScope, $location, servConexio
         },
 
         ingresar: function(sesion) {
-            servConexion.post('/auth', {
+            servConexion.post('/auth/iniciarSesion', {
                     nombreUsuario: sesion.nombreUsuario,
                     contrasena: sesion.contrasena
                 })
@@ -38,6 +38,8 @@ concepcion.factory('servSesion', function($q, $rootScope, $location, servConexio
                     $rootScope.iniciando = false;
                 });
         }
+        
+        
 
     };
 });

@@ -54,7 +54,7 @@ public class AutenticacionController {
   @Autowired
   private UsuarioRepository usuarioRepo;
 
-  @RequestMapping(method = RequestMethod.POST)
+  @RequestMapping(value = "/iniciarSesion", method = RequestMethod.POST)
   public  Map<String, Object> autenticar(@RequestBody Map<String, Object> usuarioMap, Device dispositivo) throws AuthenticationException {
   
 	  Map<String, Object> response = new LinkedHashMap<String, Object>();
@@ -148,22 +148,18 @@ public class AutenticacionController {
     }
     
     @RequestMapping(value = "/cerrarSesion", method = RequestMethod.GET)
-    public Map<String, Object> cerrarSesion(/*@RequestBody Map<String, Object> usuarioMap,*/ ServletRequest request) throws AuthenticationException {
+    public Map<String, Object> cerrarSesion(ServletRequest request) throws Exception {
     
     	Map<String, Object> response = new LinkedHashMap<String, Object>();
     	
-    	try {
+    	
     		HttpServletRequest httpRequest = (HttpServletRequest) request;
             String token = httpRequest.getHeader(this.tokenHeader);
         	this.tokenUtils.insertarTokenInvalido(token);
         	response.put("message", "Sesion cerrada");
     		response.put("status", 200);
     		
-	} catch (Exception ex) {
-		response.put("message", ex.getMessage());
-		response.put("status", 500);
-		
-	}
+	
 
 	return response;
     }

@@ -28,6 +28,7 @@ concepcion.controller('ctrlSesion', function(servSesion, $rootScope, $scope, $lo
     	$rootScope.autenticado = false;
     	$rootScope.iniciando = false;
     	$rootScope.loginResult = '';
+    	servSesion.cerrarSesion($scope.sesion);
 		console.log('Saliendo');
 		$location.path('/ingreso');
 	}
