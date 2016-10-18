@@ -27,102 +27,65 @@
 		<spring-boot.version>1.2.3.RELEASE</spring-boot.version>
 		<spring-framework.version>4.1.6.RELEASE</spring-framework.version>
 		<jjwt.version>0.4</jjwt.version>
-		<h2.version>1.4.188</h2.version>
-		<jackson.version>2.5.3</jackson.version>
-		<apache-commons.version>3.0</apache-commons.version>
-		<junit.version>4.12</junit.version>
-        <lombok.version>1.16.6</lombok.version>
-		<jacoco-maven-plugin.version>0.7.5.201505241946</jacoco-maven-plugin.version>
-		<coveralls-maven-plugin.version>4.1.0</coveralls-maven-plugin.version>
 		<!-- Propiedades -->
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-rest</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
+		<!-- Generada en la creacion del proyecto-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		
+		<!-- Generada en la creacion del proyecto-->
+        <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+        
+        <!-- Generada en la creacion del proyecto-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web-services</artifactId>
+			<artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
 		</dependency>
-
+		
+		<!-- Esta dependencia es para poder establecer entity en los modelos -->
 		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		
+		<!--Necesario para la conexion con MySql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+		</dependency>	
 		
-		<dependency>
-			<groupId>org.springframework.restdocs</groupId>
-			<artifactId>spring-restdocs-mockmvc</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		<!-- Dependencias -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		
+		<!-- Esta es necesaria para todas las clases y etiquetas necesarias para la seguridad-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		
+		<!--Esta es necesaria para poder consultar que dispositivo hizo el llamado al servidor -->
 		<dependency>
 			<groupId>org.springframework.mobile</groupId>
 			<artifactId>spring-mobile-device</artifactId>
 		</dependency>
+		
+		<!-- Esta es necesaria para el manejo de los JWT -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>${jjwt.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${apache-commons.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
-		</dependency>
-		
-		<!-- Dependencias -->
-		
-    
-
 	</dependencies>
-
+	
+	
+	
+<!-- hay que comentar para publicar
 	<build>
 		<plugins>
 			<plugin>
@@ -131,6 +94,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
+-->
 
 </project>
